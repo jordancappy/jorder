@@ -3,3 +3,5 @@ bower_components/
 node_modules/
 npm-debug.log
 .vscode
+public/js/vendor.bundle.js
+public/js/bundle.js
