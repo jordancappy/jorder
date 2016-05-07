@@ -1,0 +1,5 @@
+.DS_Store
+/bower_components/
+/jordancappy/node_modules/
+/jordancappy/npm-debug.log
+/jordancappy/.vscode
