@@ -6,4 +6,10 @@ router.get('/', function(req,res,next) {
     res.render('index', {title: 'jorder'});
 });
 
+// GET create page
+router.get('/create', function(req,res,next) {
+    res.render('create', {title: 'jorder'});
+});
+
+
 module.exports = router;

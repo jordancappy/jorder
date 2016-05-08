@@ -4,8 +4,11 @@ html
     title= title
     meta(name='viewport', content='width=device-width, initial-scale=1')
     script(src='js/build/vendor.bundle.js')
+    link(rel='stylesheet', href='/css/build/vendor.css')
+    link(rel='stylesheet', href='/css/build/site.css')
     
     block scripts
     block styles
   body
-    block content
+    .container
+      block content

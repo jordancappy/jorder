@@ -104,5 +104,15 @@ gulp.task('styles-watch', function() {
   gulp.watch('./public/css/*.styl', ['styles']);
 });
 
-gulp.task('default', ['vendor','browserify-watch','styles', 'styles-watch']);
-gulp.task('build', ['vendor','browserify','styles']);
+// vendor styles
+gulp.task('vendor-styles', function() {
+  return gulp.src([
+    'bower_components/bootstrap/dist/css/bootstrap.css',
+    'bower_components/bootstrap/dist/css/bootstrap.theme.css',
+  ]).pipe(concat('vendor.css'))
+    .pipe(gulpif(production, uglify({ mangle: false })))
+    .pipe(gulp.dest('public/css/build'));
+});
+
+gulp.task('default', ['vendor','browserify-watch','vendor-styles','styles','styles-watch']);
+gulp.task('build', ['vendor','vendor-styles','browserify','styles']);
