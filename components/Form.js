@@ -10,7 +10,7 @@ class Form extends React.Component {
           <div className="form">
             <h1>{this.props.title}</h1>
             {this.props.pages.map((x,i)=> 
-              <Page key={i} title={x.title} />
+              <Page key={i} title={x.title} questions={x.questions}/>
             )}
           </div>
       );
