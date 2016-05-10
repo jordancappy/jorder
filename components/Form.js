@@ -5,6 +5,11 @@ class Form extends React.Component {
   constructor(props){
     super();
   }
+  componentDidMount(){
+    $.get('/api/forms',function(data){
+      console.log('data',data);
+    })
+  }
   render() {
       return(
           <div className="form">
