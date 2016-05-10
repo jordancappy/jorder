@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "npm run build & node server.js",
+    "start": "mongod & npm run build & node server.js",
     "build": "gulp",
     "dev": "npm run build & nodemon server.js",
     "prod": "NODE_ENV=production forever start --minUptime 1000 --spinSleepTime 1000 server.js",
