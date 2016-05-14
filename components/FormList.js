@@ -12,13 +12,15 @@ class FormList extends React.Component {
   }
   loadForms() {
     $.get('/api/forms', (data) => {
-      data = [{ name: 'form' }];
-      console.log('data', data);
       this.setState({ 'forms': data });
     });
   }
-  createForm(title) {
-    console.log('you will create a form one day with the name of', title);
+  createForm(title) {    
+    var data = $( "#create-form-modal form" ).serialize();
+    
+    $.post('/api/forms', data, (data) => {
+      loadForms();
+    })
   }
   render() {
     return (

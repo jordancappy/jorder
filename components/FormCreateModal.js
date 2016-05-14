@@ -24,7 +24,7 @@ class FormCreateModal extends React.Component {
                             <div className="modal-body">
                                 <div className="form-group">
                                     <label>Title</label>
-                                    <input type="text" name="title" className="form-control"
+                                    <input type="text" name="name" className="form-control"
                                         ref="title" val={this.props.title}/>
                                 </div>
                             </div>
