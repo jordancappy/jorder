@@ -8,7 +8,7 @@ class Form extends React.Component {
   componentDidMount(){
     $.get('/api/forms',function(data){
       console.log('data',data);
-    })
+    });
   }
   render() {
       return(
