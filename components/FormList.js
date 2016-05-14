@@ -27,7 +27,8 @@ class FormList extends React.Component {
       <div className="form-list">
         <h2>My Forms</h2>
         {this.state.forms.map((v, i) => {
-          return <FormBlock key={i} name={v.name}/>
+          return <FormBlock key={i} name={v.name}
+                  id={v._id}/>
         }) }
         <a className="col-sm-6 col-md-3 well text-center"
           data-toggle="modal" data-target="#create-form-modal">
