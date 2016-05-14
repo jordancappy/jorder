@@ -8,11 +8,6 @@ router.get('/', function(req,res,next) {
     res.render('index', {title: 'jorder'});
 });
 
-// GET create page
-router.get('/create', function(req,res,next) {
-    res.render('create', {title: 'jorder'});
-});
-
 router.get('/home', function(req,res,next){
    res.render('home',{title:'jorder'}); 
 });

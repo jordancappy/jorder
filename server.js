@@ -1,3 +1,4 @@
+require('babel-register');
 var express = require('express');
 var path = require('path');
 var logger = require('morgan');
@@ -7,6 +8,7 @@ var mongoose = require('mongoose');
 
 var routes = require('./routes/index');
 var forms = require('./routes/forms');
+var create = require('./routes/create')
 var Form = require('./models/Form');
 
 // mongo db
@@ -34,6 +36,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // route setup 
 app.use('/api/forms',forms);
 app.use('/', routes);
+app.use('/create',create);
 
 // event listening
 app.listen(app.get('port'), function () {
