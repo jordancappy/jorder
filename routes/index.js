@@ -6,10 +6,10 @@ router.get('/', function(req,res,next) {
     //TODO: when authentication added make returned page 
     // contain all the forms available to the user
     res.render('index', {title: 'jorder'});
-});
+  });
 
 router.get('/home', function(req,res,next){
-   res.render('home',{title:'jorder'}); 
+	res.render('home',{title:'jorder'}); 
 });
 
 

@@ -4,20 +4,18 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-
-var routes = require('./routes/index');
-var forms = require('./routes/forms');
-var create = require('./routes/create')
-var Form = require('./models/Form');
 
 // mongo db
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/jorder', function (err) {
   if (err)
     console.info('Mongodb Error:', err);
   else
     console.log('mongodb connection successful');
 });
+
+var Page = require('./models/Page');
+var Form = require('./models/Form');
 
 var app = express();
 
@@ -34,9 +32,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // route setup 
-app.use('/api/forms',forms);
+var routes = require('./routes/index');
+var forms = require('./routes/forms');
+var create = require('./routes/create')
+var pages = require('./routes/pages');
 app.use('/', routes);
 app.use('/create',create);
+app.use('/api/forms',forms);
+app.use('/api/pages',pages);
 
 // event listening
 app.listen(app.get('port'), function () {

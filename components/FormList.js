@@ -15,9 +15,7 @@ class FormList extends React.Component {
       this.setState({ 'forms': data });
     });
   }
-  createForm(title) {    
-    var data = $( "#create-form-modal form" ).serialize();
-    
+  createForm(data) {    
     $.post('/api/forms', data, (data) => {
       loadForms();
     })
@@ -29,7 +27,7 @@ class FormList extends React.Component {
         {this.state.forms.map((v, i) => {
           return <FormBlock key={i} name={v.name}
                   id={v._id}/>
-        }) }
+        })}
         <a className="col-sm-6 col-md-3 well text-center"
           data-toggle="modal" data-target="#create-form-modal">
           <h4>Create new form...</h4>
