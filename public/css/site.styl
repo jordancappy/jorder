@@ -1,4 +1,4 @@
-.page
+.page, #side-menu
 	-webkit-box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07)
 	box-shadow: inset 1px 1px 0 rgba(0,0,0,.1),inset 0 -1px 0 rgba(0,0,0,.07)
 
@@ -9,8 +9,26 @@
 	background: white
 	left:0
 
-	button
+	button, a
 		margin-top:20px
+
+.close-button:before
+	content: 'X'
 
 .form
 	padding-top: 6em
+
+.icon
+	font-size: 20px
+	line-height: 30px
+	height:30px
+	width:30px
+	color: grey
+	&:hover,:active,:focus
+		text-decoration:none
+		color:black
+
+.blue
+	color: blue
+
+@import "side-menu"

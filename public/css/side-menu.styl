@@ -1,0 +1,45 @@
+/* side menu stylesheet */
+
+/* variables */
+width = 300px
+
+#side-menu
+	height: 100%
+	position: fixed
+	background: white
+	padding: 12px
+	width: width
+	z-index: 1
+	box-shadow: 0 0 6px rgba(0,0,0,.4)
+
+	&.right
+		right: -(width)
+	&.left
+		left: -(width)
+
+	@media (min-width: 1800px)
+		&.left
+			left: 0
+		&.right
+			right: 0
+		.icon
+			display: none	
+
+	&:target
+		&.left
+			left: 0
+		&.right
+			right: 0
+	div:first-child
+		border-bottom: 1px solid #eee
+		h3
+			margin: 0
+			text-align: center
+	a
+		top: 10px	
+		position:absolute
+		right:0px
+		
+	input,button
+		margin-top: 10px
+		width:100%		
