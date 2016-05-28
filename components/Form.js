@@ -11,7 +11,7 @@ class Form extends React.Component {
     this.updatePage = this.updatePage.bind(this);
   }
   componentDidMount() {
-    $.get('/api/forms/' + this.props.id, (data) => {
+    $.get('/api/forms/' + this.props.params.id, (data) => {
       console.log('data', data);
       this.setState({
         name: data.name,
