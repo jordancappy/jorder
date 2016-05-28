@@ -45,9 +45,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 var routes = require('./routes/index');
 var forms = require('./routes/forms');
 var create = require('./routes/create');
+var users = require('./routes/user')
 app.use('/', routes);
 app.use('/create',create);
 app.use('/api/forms',forms);
+app.use('/api/users',users);
 
 // event listening
 app.listen(app.get('port'), function () {

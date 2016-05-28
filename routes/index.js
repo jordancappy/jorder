@@ -4,15 +4,7 @@ var router = express.Router();
 var passport = require('passport');
 // GET home page
 router.get('/', function(req,res,next) {
-    //TODO: when authentication added make returned page 
-    // contain all the forms available to the user
-    var isAuthenticated = req.isAuthenticated();
-    console.log('authenticated', isAuthenticated);
-    res.render('index', {title: 'jorder',isAuthenticated: isAuthenticated});
-  });
-
-router.get('/home', function(req,res,next){
-	res.render('home',{title:'jorder'}); 
+  res.render('index', {title: 'jorder'});
 });
 
 // GET logout
@@ -26,8 +18,9 @@ router.get('/auth/google', passport.authenticate('google',{scope:['profile','ema
 
 router.get('/auth/callback',
 	passport.authenticate('google',{
-		successRedirect: '/home',
+		successRedirect: '/',
 		failureRedirect: '/'
-}));
+  })
+);
 
 module.exports = router;

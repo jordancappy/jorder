@@ -1,10 +1,9 @@
 import React from 'react';
 import {render} from 'react-dom';
 import Form from './components/Form';
-import FormList from './components/FormList';
+import Home from './components/Home'
 
-import {Router, Route} from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
+import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
 //TODO: move this into own file
 class App extends React.Component {
@@ -17,16 +16,11 @@ class App extends React.Component {
   }
 }
 
-let history = createBrowserHistory();
-
 render((
-  <Router history={history}>
+  <Router history={browserHistory}>
     <Route path='/' component={App}>
-
+      <IndexRoute component={Home} />
       <Route path="/create/:id" component={Form} />
-
-      //TODO: consolidate both /home and index page into 1
-      <Route path="/home" component={FormList} />
     </Route>
   </Router>
   ),
