@@ -63,7 +63,7 @@ class Form extends React.Component {
     return (
       <div className={this.state.meta.color}>
        <SideMenu title="Options" direction="right"/>
-        <div className="row page-header">
+        <div className="row fixed-header">
           <div className="col-sm-9">
             <h1>{this.state.name}</h1>
           </div>

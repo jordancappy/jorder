@@ -4,6 +4,8 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var session = require('express-session');
+var passport = require('passport');
 
 // mongo db
 var mongoose = require('mongoose');
@@ -14,6 +16,8 @@ mongoose.connect('mongodb://localhost/jorder', function (err) {
     console.log('mongodb connection successful');
 });
 
+require('./config/passport')(passport);
+
 var Page = require('./models/Page');
 var Form = require('./models/Form');
 
@@ -22,6 +26,12 @@ var app = express();
 // view setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
+
+// middleware setup
+app.use(session({secret:'jcaps is a big boy'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 // app config
 app.set('port', process.env.PORT || 3000);
