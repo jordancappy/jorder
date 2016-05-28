@@ -6,7 +6,9 @@ var passport = require('passport');
 router.get('/', function(req,res,next) {
     //TODO: when authentication added make returned page 
     // contain all the forms available to the user
-    res.render('index', {title: 'jorder'});
+    var isAuthenticated = req.isAuthenticated();
+    console.log('authenticated', isAuthenticated);
+    res.render('index', {title: 'jorder',isAuthenticated: isAuthenticated});
   });
 
 router.get('/home', function(req,res,next){
