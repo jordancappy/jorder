@@ -13,7 +13,8 @@ var userSchema = new Schema({
 		trim: true,
 		unique: true
 	},
-	password: String
+	password: String,
+	forms:[{type: Schema.Types.ObjectId, ref: 'Form'}],
 });
 
 module.exports = mongoose.model('User', userSchema);
