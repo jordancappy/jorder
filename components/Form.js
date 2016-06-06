@@ -30,9 +30,8 @@ class Form extends React.Component {
       pages: this.state.pages
     };
 
-    console.log('form',form);
     $.ajax({
-      url:'/api/forms/' + this.props.id,
+      url:'/api/forms/' + this.props.params.id,
       method: 'PUT',
       contentType: "application/json; charset=utf-8",
       data: JSON.stringify(form)
@@ -61,35 +60,36 @@ class Form extends React.Component {
   }
   render() {
     return (
-      <div className={this.state.meta.color}>
+      <div >
        <SideMenu title="Options" direction="right"/>
         <div className="row fixed-header">
           <div className="col-sm-9">
             <h1>{this.state.name}</h1>
           </div>
           <div className="col-sm-3">
-            <button className="btn btn-lg btn-primary"
-              onClick={this.save}>
-              save</button>
-             <a href="#side-menu" title="Open Options menu"
-              className="btn btn-default btn-lg pull-right">
-              options...</a>
+            <button className="raised" onClick={this.save}>
+              preview
+            </button>
+            <a href="#side-menu" title="Open Options menu">
+              <i className="material-icons">more_vert</i>
+            </a>
           </div>
         </div>
         <div className="form">
           {this.state.pages.map((x, i) =>
-            <Page key={i} id={x._id} name={x.name} 
+             <Page key={i} id={x._id} name={x.name} 
               questions={x.questions}
               save={this.updatePage}/>
           ) }
-          <Page save={this.createPage} form={this.props.id}/>
+          <div className="card-container">
+            <button className="card block" onClick={this.createPage}>add page</button>
+          </div>
           <datalist id="types">
               <option value="text" />
               <option value="drop down" />
               <option value="radio" />
           </datalist>
         </div>
-
       </div>
     );
   }

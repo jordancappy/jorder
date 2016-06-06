@@ -21,7 +21,7 @@ class Home extends React.Component {
       <FormList /> : <HomePage />;
     return (
       <div>
-      {body}
+        {body}
       </div>
     );
   }

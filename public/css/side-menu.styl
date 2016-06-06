@@ -1,21 +1,21 @@
 /* side menu stylesheet */
 
 /* variables */
-width = 300px
+menuWidth = 300px
 
 #side-menu
 	height: 100%
 	position: fixed
 	background: white
 	padding: 12px
-	width: width
+	width: menuWidth
 	z-index: 1
 	box-shadow: 0 0 6px rgba(0,0,0,.4)
 
 	&.right
-		right: -(width)
+		right: -(menuWidth)
 	&.left
-		left: -(width)
+		left: -(menuWidth)
 
 	@media (min-width: 1800px)
 		&.left

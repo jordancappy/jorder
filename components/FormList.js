@@ -28,10 +28,12 @@ class FormList extends React.Component {
           return <FormBlock key={i} name={v.name}
                   id={v._id}/>
         })}
-        <a className="col-sm-6 col-md-3 well text-center"
+        <div className="col-sm-6 col-md-3 card"
           data-toggle="modal" data-target="#create-form-modal">
-          <h4>Create new form...</h4>
-        </a>
+          <div className="title">
+            <h1>Create new form...</h1>
+          </div>
+        </div>
         <FormCreateModal save={this.createForm}/>
       </div>
     );
