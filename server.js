@@ -16,10 +16,11 @@ mongoose.connect('mongodb://localhost/jorder', function (err) {
     console.log('mongodb connection successful');
 });
 
-require('./config/passport')(passport);
 
 var Page = require('./models/Page');
 var Form = require('./models/Form');
+
+require('./config/passport')(passport);
 
 var app = express();
 
@@ -31,7 +32,6 @@ app.set('view engine', 'pug');
 app.use(session({secret:'jcaps is a big boy'}));
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 // app config
 app.set('port', process.env.PORT || 3000);
@@ -45,10 +45,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 var routes = require('./routes/index');
 var forms = require('./routes/forms');
 var create = require('./routes/create');
-var users = require('./routes/user')
+var users = require('./routes/user');
+var pages = require('./routes/pages')
 app.use('/', routes);
 app.use('/create',create);
 app.use('/api/forms',forms);
+app.use('/api/pages',pages);
 app.use('/api/users',users);
 
 // event listening
