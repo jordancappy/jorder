@@ -1,0 +1,42 @@
+input
+  border: none
+  outline: none
+  
+  &:before
+    content: ''
+    position: absolute
+  
+  &:focus
+    color: blue
+    border-color: blue
+    
+    & ~ label
+      color: blue
+      top: -14px
+      font-size: 13px !important
+
+  &:invalid
+    color: red
+    border-color: red
+    & ~ label
+      color: red
+    
+  &:valid ~ label
+    top: -14px
+    font-size: 13px !important
+    
+label
+  font-weight: normal
+  font-size: 18px
+  transition: all 0.3s ease  
+
+/* place class on element containing both input and label */
+.fancy
+  position: relative
+  margin-top: 18px  
+    
+  label
+    color: darkgrey
+    left: 0
+    top: 0
+    position: absolute

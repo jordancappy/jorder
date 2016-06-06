@@ -1,0 +1,50 @@
+/* page styles */
+
+/* properties */
+$card 
+  @import 'card'
+  
+.page
+  @extend $card .card
+  -webkit-transition: all 5s ease
+  transition: all .5s ease
+  
+  .title
+    input
+      font-size: 24px
+      width: 100%
+
+  &:hover
+    //transform: scale(0)
+      
+  input
+    &[name=name]
+      border-bottom: 1px solid
+      font-size: 22px
+      width: 100%
+      max-width: 600px
+      & ~ label
+        font-size: 22px
+
+  .answer-list
+    margin-top: 10px
+    margin-left: 22px
+    margin-right: 22px
+    transition: all .5 s ease-in
+    
+    div
+      position: relative
+      i
+        display: none
+        line-height: 22px!important
+        position: absolute
+        right: 0
+    &:hover
+      //border-bottom: 1px solid
+      i
+        display: block
+        
+.question
+  padding: 16px
+  &:hover
+   box-shadow: 0 1px 5px rgba(0,0,0,0.3)      

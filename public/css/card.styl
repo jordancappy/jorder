@@ -1,0 +1,36 @@
+/* card styles */
+
+/* variables */
+padding = 16px
+
+.card
+  border-radius: 2px
+  padding: 0
+  box-shadow: 0 2px 2px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12);
+  transition-duration: 0.2s
+  transition-timing-function: ease-in
+  transition-property: transform,box-shadow,background
+
+  &:hover
+    box-shadow:0 2px 15px rgba(0,0,0,.30)
+
+  .title
+    padding: padding
+    padding-top: 24px
+    h1
+      font-size: 24px
+      margin: 0
+    i
+      position: relative
+      float: right
+  
+  .content
+    padding: padding
+
+  .actions
+    padding: 8px
+    i
+      vertical-align: middle
+      
+.card-container
+  padding: padding
