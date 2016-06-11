@@ -13,6 +13,20 @@ router.get('/logout', function(req,res){
 	res.redirect('/');
 });
 
+
+router.get('/form/:id', function (req, res, next) {
+  res.render('index', {
+    title: 'jorder',
+    id: req.params.id
+  });
+});
+
+router.get('/chess', function(req,res,next){
+  res.render('index',{
+    title:'chess'
+  });
+});
+
 /* google authentication section */
 router.get('/auth/google', passport.authenticate('google',{scope:['profile','email']}))
 
