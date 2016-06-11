@@ -6,11 +6,13 @@ class Question extends React.Component {
     this.state = {
       type: '',
       name: '',
-      answers: [{name:''}]
+      answers: [{name:''}],
+      showOptions: false
     };
     this.updateType = this.updateType.bind(this);
     this.updateName = this.updateName.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
+    this.options = this.options.bind(this);
   }
   ComponentDidMount() {
     this.setState({
@@ -44,6 +46,11 @@ class Question extends React.Component {
     var question = e.target.value;
     console.log('question',question);
   }
+  options(e) {
+    this.setState({
+      showOptions: !this.state.showOptions
+    })
+  }
   render(){
     return (
       <div className="question">
@@ -52,7 +59,7 @@ class Question extends React.Component {
             onChange={this.updateType}
             value={this.state.type}
             placeholder="Question type"
-            pattern="text|drop down|radio"
+            pattern="text|drop down|radio|date"
             required
           />
         </div>
@@ -61,7 +68,7 @@ class Question extends React.Component {
             onChange={this.updateName}
             value={this.state.name}
             required/>
-          <label for="name">Question</label>
+          <label htmlFor="name">Question</label>
         </div>
         <div className={this.state.type != 'text' ?
           'answer-list ' + this.state.type : 'hidden'}>
@@ -76,10 +83,42 @@ class Question extends React.Component {
             </div>
           }) }
         </div>
+        <div className={this.state.showOptions ? "content" : "hidden"}>
+          <h3>options</h3>
+          <hr />
+          <div className="flex flex--row">
+            <span className="flex__item">Required field</span>
+            <input 
+              type="checkbox"
+              id={this.props.index + "-required"}
+              name="required"
+              className="item-1"
+              hidden />
+            <label htmlFor={this.props.index + "-required"}
+              className="switch" />
+          </div>
+          <br />
+          <div className="flex flex--row">
+            <span className="flex__item">Conditional Question</span>
+            <input 
+              type="checkbox"
+              id={this.props.index + "-conditional"}
+              name="required"
+              className="item-1"
+              hidden />
+            <label htmlFor={this.props.index + "-conditional"}
+              className="switch switch--state" />
+          </div>
+        </div>
         <div className="actions">
+          <i className="material-icons" title="required">*</i>
           <i className="material-icons" title="archive">archive</i>
           <i className="material-icons" title="more">more_vert</i>
-          <i className="material-icons" title="options">expand_more</i>
+          <i className="material-icons"
+            title="options"
+            onClick={this.options}>
+            {this.state.showOptions ? "expand_less" : "expand_more"}
+          </i>
         </div>
       </div>
     );

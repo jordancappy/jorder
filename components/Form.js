@@ -62,18 +62,14 @@ class Form extends React.Component {
     return (
       <div >
        <SideMenu title="Options" direction="right"/>
-        <div className="row fixed-header">
-          <div className="col-sm-9">
-            <h1>{this.state.name}</h1>
-          </div>
-          <div className="col-sm-3">
-            <button className="raised" onClick={this.save}>
-              preview
-            </button>
-            <a href="#side-menu" title="Open Options menu">
-              <i className="material-icons">more_vert</i>
-            </a>
-          </div>
+        <div className="fixed-header flex flex-row">
+          <h1 className="flex__item">{this.state.name}</h1>
+          <button className="button--raised" onClick={this.save}>
+            preview
+          </button>
+          <a href="#side-menu" title="Open Options menu">
+            <i className="material-icons">more_vert</i>
+          </a>
         </div>
         <div className="form">
           {this.state.pages.map((x, i) =>
@@ -82,12 +78,13 @@ class Form extends React.Component {
               save={this.updatePage}/>
           ) }
           <div className="card-container">
-            <button className="card block" onClick={this.createPage}>add page</button>
+            <button className="card button--block" onClick={this.createPage}>add page</button>
           </div>
           <datalist id="types">
               <option value="text" />
               <option value="drop down" />
               <option value="radio" />
+              <option value="date" />
           </datalist>
         </div>
       </div>

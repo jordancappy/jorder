@@ -24,14 +24,16 @@ class FormList extends React.Component {
     return (
       <div className="form-list">
         <h2>My Forms</h2>
-        {this.state.forms.map((v, i) => {
-          return <FormBlock key={i} name={v.name}
-                  id={v._id}/>
-        })}
-        <div className="col-sm-6 col-md-3 card"
-          data-toggle="modal" data-target="#create-form-modal">
-          <div className="title">
-            <h1>Create new form...</h1>
+        <div className="flex flex--row">
+          {this.state.forms.map((v, i) => {
+            return <FormBlock key={i} name={v.name}
+                    id={v._id}/>
+          })}
+          <div className="flex__item card"
+            data-toggle="modal" data-target="#create-form-modal">
+            <div className="title">
+              <h1>Create new form...</h1>
+            </div>
           </div>
         </div>
         <FormCreateModal save={this.createForm}/>

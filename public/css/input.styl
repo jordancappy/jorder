@@ -1,42 +1,87 @@
-input
-  border: none
-  outline: none
-  
-  &:before
-    content: ''
-    position: absolute
-  
-  &:focus
-    color: blue
-    border-color: blue
-    
-    & ~ label
-      color: blue
-      top: -14px
-      font-size: 13px !important
-
-  &:invalid
-    color: red
-    border-color: red
-    & ~ label
-      color: red
-    
-  &:valid ~ label
-    top: -14px
-    font-size: 13px !important
-    
-label
-  font-weight: normal
-  font-size: 18px
-  transition: all 0.3s ease  
+padding = 8px
+switch-color = #009688
 
 /* place class on element containing both input and label */
 .fancy
-  position: relative
-  margin-top: 18px  
+  position relative
+  margin-top 18px  
     
   label
-    color: darkgrey
-    left: 0
-    top: 0
-    position: absolute
+    color darkgrey
+    left 0
+    top 0
+    position absolute
+    
+  input:valid ~ label
+    top -14px
+    font-size 13px !important
+input
+  border none
+  outline none
+  
+  &:before
+    content ''
+    position absolute
+  
+  &:valid
+    color blue
+    border-color blue
+    & ~ label
+      color blue
+
+  &:invalid
+    color red
+    border-color red
+    & ~ label
+      color red
+    
+    
+label
+  font-weight normal
+  font-size 18px
+  transition all 0.3s ease  
+
+/* place class on checkbox element */
+.switch
+  background rgba(black,.38)
+  border-radius padding
+  cursor pointer
+  height padding * 2
+  position relative
+  top 2px
+  width padding * 5
+  
+  &:before
+    background #fafafa
+    border-radius padding * 2
+    box-shadow 0 1px 3px rgba(black,.4)
+    content ''
+    height padding * 3
+    opacity 1
+    position absolute
+    top -5px
+    -webkit-transition all 0.3s ease
+    transition all 0.3s ease
+    width padding * 3
+  
+  &--state:after
+    color red
+    content 'off'
+    margin-left -40px
+    position relative
+    text-transform uppercase
+    top -(padding / 2)
+    -webkit-transition all 0.3s ease
+    transition all 0.3s ease
+  
+input:checked + .switch
+  background rgba(switch-color,50%)
+  &:before
+    left padding * 2
+    background switch-color
+  &--state:after
+    content 'on'
+    color blue
+    
+    
+     

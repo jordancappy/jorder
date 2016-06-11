@@ -64,18 +64,18 @@ class Page extends React.Component {
             </div>
             <div className="actions">
               <button className="blue">save</button>
-              <button>ya mum</button>
+              <button className="button--raised">ya mum</button>
               <button>the pain</button>
               <button>kill</button>
               <button>yourself</button>
             </div>
             <div>
               {this.state.questions.map((v, i) => {
-                return <Question key={i} name={v.name} />
+                return <Question key={i} index={i} name={v.name} />
               }) }
             </div>
           </form>
-          <button className="block"
+          <button className="button--block"
             onClick={this.addQuestion}>add question
           </button>
         </div>
