@@ -1,24 +1,66 @@
-import React from 'react';
+import React, { Component, PropTypes} from 'react';
+import { findDOMNode } from 'react-dom';
+import { DragSource } from 'react-dnd'; 
+import { ItemTypes } from './Constants';
+import { DropTarget } from 'react-dnd';
 
-class Question extends React.Component {
-  constructor() {
-    super();
+import flow from 'lodash/flow';
+
+const questionSource = {
+  beginDrag(props) {
+    return {
+      pageId: props.pageId,
+      index: props.index
+    };
+  }
+};
+
+function collect(connect, monitor) {
+  return {
+    connectDragSource: connect.dragSource(),
+    isDragging: monitor.isDragging()
+  }
+}
+
+const listTarget = {
+  hover(props,monitor,component) {
+    const dragIndex = monitor.getItem().index;
+    const hoverIndex = props.index;
+
+    if (dragIndex == hoverIndex)
+      return;
+
+    props.moveQuestion(dragIndex, hoverIndex);
+  }
+};
+
+function dropCollect(connect, monitor) {
+  return {
+    connectDropTarget: connect.dropTarget(),
+    isOver: monitor.isOver()
+  };
+}
+
+class Question extends Component {
+  constructor(props) {
+    super(props);
     this.state = {
-      type: '',
-      name: '',
+      type: this.props.type,
+      name: this.props.name,
       answers: [{name:''}],
       showOptions: false
     };
     this.updateType = this.updateType.bind(this);
     this.updateName = this.updateName.bind(this);
-    this.updateQuestion = this.updateQuestion.bind(this);
+    this.updateAnswer = this.updateAnswer.bind(this);
     this.options = this.options.bind(this);
   }
   ComponentDidMount() {
-    this.setState({
-      type: this.props.type,
-      name: this.props.name
-    });
+    //this.setState({
+    //  type: this.props.type,
+    //  name: this.props.name,
+    //  index: this.props.index
+    //});
   }
   updateType(e) {
     e.preventDefault();
@@ -34,26 +76,44 @@ class Question extends React.Component {
       type: e.target.value,
       answers: answers
     });
+    this.save();
   }
   updateName(e) {
     e.preventDefault();
     this.setState({
       name: e.target.value
     });
+    this.save();
   }
-  updateQuestion(e) {
+  updateAnswer(e) {
     e.preventDefault();
     var question = e.target.value;
     console.log('question',question);
+  }
+  save() {
+    let question = {
+      name: this.state.name,
+      type: this.state.type,
+      order: this.props.index,
+      answers: this.state.answers
+    };
+    this.props.saveQuestion(question);
   }
   options(e) {
     this.setState({
       showOptions: !this.state.showOptions
     })
   }
-  render(){
-    return (
-      <div className="question">
+  render() {
+    const { connectDragSource, isDragging,
+      connectDropTarget, isOver } = this.props;
+
+    return connectDropTarget(connectDragSource(
+      <div className="question"
+        style={{
+          opacity: isDragging ? 0 : 1,
+          border: isOver ? '1px solid black' : ''
+       }}>
         <div>
           <input name="type" list="types"
             onChange={this.updateType}
@@ -66,18 +126,18 @@ class Question extends React.Component {
         <div className="fancy">
           <input name="name" 
             onChange={this.updateName}
-            value={this.state.name}
+            value={this.props.name}
             required/>
           <label htmlFor="name">Question</label>
         </div>
         <div className={this.state.type != 'text' ?
           'answer-list ' + this.state.type : 'hidden'}>
           {this.state.answers.map((v, i) => {
-            return <div>
+            return <div key={i}>
               <i className="material-icons" title="delete">cancel</i>
               <input 
                 key={i}
-                onChange={this.updateQuestion}
+                onChange={this.updateAnswer}
                 placeholder="answer"
                 value={v.name} />
             </div>
@@ -87,12 +147,12 @@ class Question extends React.Component {
           <h3>options</h3>
           <hr />
           <div className="flex flex--row">
-            <span className="flex__item">Required field</span>
+            <span className="material-icons text-center flex__item" >*</span>
+            <span className="flex__item--3">Required field</span>
             <input 
               type="checkbox"
               id={this.props.index + "-required"}
               name="required"
-              className="item-1"
               hidden />
             <label htmlFor={this.props.index + "-required"}
               className="switch" />
@@ -121,8 +181,16 @@ class Question extends React.Component {
           </i>
         </div>
       </div>
-    );
+    ));
   }
 }
 
-export default Question;
+Question.propTypes = {
+  connectDragSource: PropTypes.func.isRequired,
+  isDragging: PropTypes.bool.isRequired
+};
+
+export default flow(
+  DragSource(ItemTypes.QUESTION,questionSource,collect),
+  DropTarget(ItemTypes.QUESTION,listTarget,dropCollect)
+  )(Question);
