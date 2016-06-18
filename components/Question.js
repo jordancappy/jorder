@@ -55,13 +55,6 @@ class Question extends Component {
     this.updateAnswer = this.updateAnswer.bind(this);
     this.options = this.options.bind(this);
   }
-  ComponentDidMount() {
-    //this.setState({
-    //  type: this.props.type,
-    //  name: this.props.name,
-    //  index: this.props.index
-    //});
-  }
   updateType(e) {
     e.preventDefault();
     var answers = this.state.answers;
@@ -147,14 +140,14 @@ class Question extends Component {
           <h3>options</h3>
           <hr />
           <div className="flex flex--row">
-            <span className="material-icons text-center flex__item" >*</span>
+            <span className="material-icons text-center flex__item">*</span>
             <span className="flex__item--3">Required field</span>
             <input 
               type="checkbox"
-              id={this.props.index + "-required"}
+              id={`${this.props.index}-required`}
               name="required"
               hidden />
-            <label htmlFor={this.props.index + "-required"}
+            <label htmlFor={`${this.props.index}-required`}
               className="switch" />
           </div>
           <br />
@@ -162,11 +155,11 @@ class Question extends Component {
             <span className="flex__item">Conditional Question</span>
             <input 
               type="checkbox"
-              id={this.props.index + "-conditional"}
+              id={`${this.props.index}-conditional`}
               name="required"
               className="item-1"
               hidden />
-            <label htmlFor={this.props.index + "-conditional"}
+            <label htmlFor={`${this.props.index}-conditional`}
               className="switch switch--state" />
           </div>
         </div>

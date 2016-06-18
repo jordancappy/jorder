@@ -28,8 +28,8 @@ class Page extends React.Component {
   save(e) {
     e.preventDefault();
     var page = {
-      name: this.state.name,
-      questions: this.state.questions
+      name: this.props.name,
+      questions: this.props.questions
     };
 
     $.ajax({

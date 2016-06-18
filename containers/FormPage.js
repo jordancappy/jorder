@@ -1,26 +1,19 @@
-import React from 'react';
-import Page from './Page';
-import SideMenu from './SideMenu';
+import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux'
+import { fetchForm } from '../actions'
+import PageList from '../components/PageList';
+import SideMenu from '../components/SideMenu';
 
-class Form extends React.Component {
+class Form extends Component {
   constructor(props) {
     super();
-    this.state = { pages: [], meta: {} };
     this.save = this.save.bind(this);
     this.createPage = this.createPage.bind(this);
     this.updatePage = this.updatePage.bind(this);
   }
   componentDidMount() {
-    $.get('/api/forms/' + this.props.params.id, (data) => {
-      console.log('data', data);
-      this.setState({
-        name: data.name,
-        meta: data.meta,
-        created: new Date(data.created_at),
-        lastUpdated: new Date(data.lastUpdated_at),
-        pages: data.pages
-      });
-    });
+    const { dispatch,  params: { id } } = this.props
+    dispatch(fetchForm(id))  
   }
   save(e) {
     e.preventDefault();
@@ -59,11 +52,17 @@ class Form extends React.Component {
     console.log('open menu');
   }
   render() {
+    const { isFetching, name, pages, selectedForm: id } = this.props
+
+    if (isFetching){
+      return <h1>Loading Form...</h1>
+    }
+
     return (
       <div >
        <SideMenu title="Options" direction="right"/>
         <div className="fixed-header flex flex-row">
-          <h1 className="flex__item">{this.state.name}</h1>
+          <h1 className="flex__item">{this.props.name}</h1>
           <button className="button--raised" onClick={this.save}>
             preview
           </button>
@@ -72,14 +71,7 @@ class Form extends React.Component {
           </a>
         </div>
         <div className="form">
-          {this.state.pages.map((x, i) =>
-             <Page key={i} id={x._id} name={x.name} 
-              questions={x.questions}
-              save={this.updatePage}/>
-          ) }
-          <div className="card-container">
-            <button className="card button--block" onClick={this.createPage}>add page</button>
-          </div>
+          <PageList pages={pages} formId={id} />
           <datalist id="types">
               <option value="text" />
               <option value="drop down" />
@@ -92,4 +84,26 @@ class Form extends React.Component {
   }
 }
 
-export default Form;
+function mapStateToProps(state) {
+  const { selectedForm, forms } = state
+  const {
+    isFetching,
+    lastUpdated,
+    name,
+    pages
+  } = forms[selectedForm] || {
+    isFetching: true,
+    name: '',
+    pages: []
+  }
+
+  return {
+    selectedForm,
+    name,
+    pages,
+    isFetching,
+    lastUpdated
+  }
+}
+
+export default connect(mapStateToProps)(Form);

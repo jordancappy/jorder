@@ -1,15 +1,11 @@
 var mongoose = require('mongoose');
+import Question from './Question'
 var Schema = mongoose.Schema;
 
 
 var pageSchema = new Schema({
 	name: String,
-	questions: [{
-		name: String,
-		type: String,
-		order: Number,
-		answers: [{name:String, value: String}]
-	}],
+	questions: [{type: Schema.Types.ObjectId, ref: 'Question'}],
 	created_at: Date,
 	lastUpdated_at: Date
 });
@@ -21,6 +17,12 @@ pageSchema.pre('save', function(next){
 
 	if(!this.created_at)
 		this.created_at = currentDate;
+
+	console.log('pre saving')
+	if(!this.questions || this.questions.length < 1){
+		console.log('adding question')
+		questions.push(new Question())
+	}
 
 	next();
 });
