@@ -15,9 +15,9 @@ const questionSource = {
   }
 };
 
-function collect(connect, monitor) {
+function collect(dragConnect, monitor) {
   return {
-    connectDragSource: connect.dragSource(),
+    connectDragSource: dragConnect.dragSource(),
     isDragging: monitor.isDragging()
   }
 }
@@ -34,9 +34,9 @@ const listTarget = {
   }
 };
 
-function dropCollect(connect, monitor) {
+function dropCollect(dragConnect, monitor) {
   return {
-    connectDropTarget: connect.dropTarget(),
+    connectDropTarget: dragConnect.dropTarget(),
     isOver: monitor.isOver()
   };
 }
@@ -57,19 +57,12 @@ class Question extends Component {
   }
   updateType(e) {
     e.preventDefault();
-    var answers = this.state.answers;
-    if (e.target.value == 'text')
-      answers = [];
-    else
-    {
-      if(this.state.answers.length == 0)
-      answers.push({name:''})
-    }
-    this.setState({
+    let question = {
+      name: this.props.name,
       type: e.target.value,
-      answers: answers
-    });
-    this.save();
+      answers: this.props.answers || []
+    }
+    this.props.saveQuestion(this.props.id, question)
   }
   updateName(e) {
     e.preventDefault();
@@ -110,7 +103,7 @@ class Question extends Component {
         <div>
           <input name="type" list="types"
             onChange={this.updateType}
-            value={this.state.type}
+            value={this.props.type}
             placeholder="Question type"
             pattern="text|drop down|radio|date"
             required

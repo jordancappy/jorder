@@ -9,6 +9,7 @@ export default function configureStore(preloadedState) {
   return createStore(
     rootReducer,
     preloadedState,
+    //window.devToolsExtension ? window.devToolsExtension() : f => f,
     applyMiddleware(
       thunkMiddleware,
       loggerMiddleware

@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import { fetchForm } from '../actions'
 import PageList from '../components/PageList';
 import SideMenu from '../components/SideMenu';
+import merge from 'lodash/merge'
 
 class Form extends Component {
   constructor(props) {
@@ -52,9 +53,9 @@ class Form extends Component {
     console.log('open menu');
   }
   render() {
-    const { isFetching, name, pages, selectedForm: id } = this.props
+    const { isFetching, name, pages, id } = this.props
 
-    if (isFetching){
+    if (!pages){
       return <h1>Loading Form...</h1>
     }
 
@@ -84,25 +85,24 @@ class Form extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  const { selectedForm, forms } = state
+function mapStateToProps(state, ownProps) {
   const {
-    isFetching,
-    lastUpdated,
-    name,
-    pages
-  } = forms[selectedForm] || {
-    isFetching: true,
-    name: '',
-    pages: []
-  }
+    selectedForm,
+    forms, pages, questions 
+  } = state
+
+  const form = forms[selectedForm] || { pages: [] }
+  const formPages = form.pages.map(id => pages[id])
+  formPages.map(page => {
+    page.questions = page.questions.map(question => 
+      question.id ? questions[question.id] : questions[question]
+    )
+  })
 
   return {
-    selectedForm,
-    name,
-    pages,
-    isFetching,
-    lastUpdated
+    id: selectedForm,
+    name: form.name,
+    pages: formPages
   }
 }
 

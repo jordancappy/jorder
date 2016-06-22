@@ -3,9 +3,12 @@ import update from 'react/lib/update';
 import QuestionList from './QuestionList';
 import Question from './Question';
 
+import { connect } from 'react-redux'
+import { createQuestion, moveQuestion, updateQuestion } from '../actions'
+
 class Page extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       name:'',
       questions: []
@@ -13,7 +16,6 @@ class Page extends React.Component {
     this.save = this.save.bind(this);
     this.updateName = this.updateName.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
-    this.saveQuestion = this.saveQuestion.bind(this);
     this.moveQuestion = this.moveQuestion.bind(this);
   }
   componentDidMount() {
@@ -22,8 +24,8 @@ class Page extends React.Component {
       questions:this.props.questions
     });
 
-    if (this.state.questions.length == 0)
-      this.addQuestion();
+    //if (this.state.questions.length == 0)
+      //this.addQuestion();
   }
   save(e) {
     e.preventDefault();
@@ -53,33 +55,36 @@ class Page extends React.Component {
     var newName = e.target.value;
     this.setState({name:newName});
   }
-  saveQuestion(question) {
-    const {questions} = this.state;
-    questions[question.order] = question;
-
-    this.setState({questions:questions});
+  saveQuestion(questionId, question) {
+    const { dispatch, updateQuestion } = this.props;
+    dispatch(updateQuestion(questionId, question))
   }
   addQuestion(e) {
-    var newQuestion = {name:"",order: this.state.questions.length};
-    var questions = this.state.questions;
-    questions.push(newQuestion);
-    this.setState({questions:questions});
+    const { dispatch, id } = this.props
+    dispatch(createQuestion(id))
+    //var newQuestion = {name:"",order: this.state.questions.length};
+    //var questions = this.state.questions;
+    //questions.push(newQuestion);
+    //this.setState({questions:questions});
   }
   moveQuestion(dragIndex, hoverIndex) {
-    const { questions } = this.state;
-    const dragQuestion = questions[dragIndex];
+    var { dispatch, id: pageId } = this.props
+    dispatch(moveQuestion(dragIndex, hoverIndex, pageId))
 
-    this.setState(update(this.state, {
-      questions: {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, dragQuestion]
-        ]
-      }
-    }));
+    //const { questions } = this.state;
+    //const dragQuestion = questions[dragIndex];
+//
+    //this.setState(update(this.state, {
+    //  questions: {
+    //    $splice: [
+    //      [dragIndex, 1],
+    //      [hoverIndex, 0, dragQuestion]
+    //    ]
+    //  }
+    //}));
   }
   render() {
-    const { questions } = this.state; 
+    const { questions } = this.props 
 
     return (
       <div className="card-container">
@@ -88,6 +93,7 @@ class Page extends React.Component {
             <div className="title">
               <input placeholder='page title' 
                 onChange={this.updateName}
+                
                 value={this.state.name} />
             </div>
             <div className="actions">
@@ -101,9 +107,11 @@ class Page extends React.Component {
               <QuestionList >
                 {questions.map((v, i) => {
                   return <Question key={i} 
+                    id={v.id}
                     index={v.order} 
                     pageId={this.props.id}
                     name={v.name}
+                    type={v.types}
                     saveQuestion={this.saveQuestion}
                     moveQuestion={this.moveQuestion} />
                 }) }
@@ -119,4 +127,6 @@ class Page extends React.Component {
   }
 }
 
-export default Page;
+Page = connect()(Page)
+
+export default Page

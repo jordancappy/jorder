@@ -8,7 +8,8 @@ export default class PageList extends Component {
     return (
       <div>
         {pages.map((x, i) =>
-           <Page key={i} id={x._id} name={x.name} 
+           <Page key={i} id={x._id} 
+            name={x.name} 
             questions={x.questions}
             save={this.updatePage}/>
         ) }
