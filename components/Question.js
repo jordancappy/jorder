@@ -9,8 +9,8 @@ import flow from 'lodash/flow';
 const questionSource = {
   beginDrag(props) {
     return {
-      pageId: props.pageId,
-      index: props.index
+      index: props.index,
+      questionId: props.id
     };
   }
 };
@@ -23,14 +23,17 @@ function collect(dragConnect, monitor) {
 }
 
 const listTarget = {
-  hover(props,monitor,component) {
+  hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index;
+    const questionId = monitor.getItem().questionId
     const hoverIndex = props.index;
 
     if (dragIndex == hoverIndex)
       return;
 
-    props.moveQuestion(dragIndex, hoverIndex);
+    props.moveQuestion(dragIndex, hoverIndex, questionId);
+
+    monitor.getItem().index = hoverIndex;
   }
 };
 
@@ -58,6 +61,7 @@ class Question extends Component {
   updateType(e) {
     e.preventDefault();
     let question = {
+      id: this.props.id,
       name: this.props.name,
       type: e.target.value,
       answers: this.props.answers || []
@@ -66,10 +70,14 @@ class Question extends Component {
   }
   updateName(e) {
     e.preventDefault();
-    this.setState({
-      name: e.target.value
-    });
-    this.save();
+    let question = {
+      id: this.props.id,
+      name: e.target.value,
+      type: this.props.type
+      ,
+      answers: this.props.answers || []
+    }
+    this.props.saveQuestion(this.props.id, question)
   }
   updateAnswer(e) {
     e.preventDefault();
@@ -81,9 +89,9 @@ class Question extends Component {
       name: this.state.name,
       type: this.state.type,
       order: this.props.index,
-      answers: this.state.answers
+      answers: this.props.answers || []
     };
-    this.props.saveQuestion(question);
+    this.props.saveQuestion(this.props.id,question);
   }
   options(e) {
     this.setState({

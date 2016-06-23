@@ -16,6 +16,7 @@ class Page extends React.Component {
     this.save = this.save.bind(this);
     this.updateName = this.updateName.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
+    this.saveQuestion = this.saveQuestion.bind(this);
     this.moveQuestion = this.moveQuestion.bind(this);
   }
   componentDidMount() {
@@ -56,7 +57,7 @@ class Page extends React.Component {
     this.setState({name:newName});
   }
   saveQuestion(questionId, question) {
-    const { dispatch, updateQuestion } = this.props;
+    const { dispatch } = this.props;
     dispatch(updateQuestion(questionId, question))
   }
   addQuestion(e) {
@@ -67,9 +68,9 @@ class Page extends React.Component {
     //questions.push(newQuestion);
     //this.setState({questions:questions});
   }
-  moveQuestion(dragIndex, hoverIndex) {
+  moveQuestion(dragIndex, hoverIndex, questionId) {
     var { dispatch, id: pageId } = this.props
-    dispatch(moveQuestion(dragIndex, hoverIndex, pageId))
+    dispatch(moveQuestion(dragIndex, hoverIndex, questionId, pageId))
 
     //const { questions } = this.state;
     //const dragQuestion = questions[dragIndex];
@@ -106,9 +107,9 @@ class Page extends React.Component {
             <div>
               <QuestionList >
                 {questions.map((v, i) => {
-                  return <Question key={i} 
+                  return <Question key={v.id} 
                     id={v.id}
-                    index={v.order} 
+                    index={questions.indexOf(v)} 
                     pageId={this.props.id}
                     name={v.name}
                     type={v.types}
@@ -127,6 +128,15 @@ class Page extends React.Component {
   }
 }
 
-Page = connect()(Page)
+function mapStateToProps(state, ownProps) {
+  const { pages, questions } = state
 
-export default Page
+  const page = pages[ownProps.id] || { questions: [] }
+  const pageQuestions = page.questions.map(id => questions[id])
+
+  return {
+    questions: pageQuestions
+  }
+}
+
+export default connect(mapStateToProps)(Page)

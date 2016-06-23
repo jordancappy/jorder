@@ -93,11 +93,6 @@ function mapStateToProps(state, ownProps) {
 
   const form = forms[selectedForm] || { pages: [] }
   const formPages = form.pages.map(id => pages[id])
-  formPages.map(page => {
-    page.questions = page.questions.map(question => 
-      question.id ? questions[question.id] : questions[question]
-    )
-  })
 
   return {
     id: selectedForm,

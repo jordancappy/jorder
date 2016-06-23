@@ -51,8 +51,34 @@ function updatePage(state = {
 }, action) {
   switch (action.type) {
     case 'CREATE_QUESTION':
-      state.questions.push(action.id)
-      return state
+      return Object.assign({},state,{
+        questions: [...state.questions, action.id]
+      })
+    case 'REMOVE_QUESTION':
+      return Object.assign({},state,{
+        questions: 
+          [
+          ...state.slice(0, action.index),
+          ...state.slice(index + 1)
+          ]
+      })
+        state.questions
+      .slice(0, index)
+      .concat(state.slice(index + 1))
+    case types.MOVE_QUESTION:
+      const { questions } = state
+      const newQuestions = state.questions
+      const dragQuestion = questions[action.dragIndex]
+      newQuestions.splice(action.dragIndex, 1)
+      newQuestions.splice(action.hoverIndex, 0, dragQuestion)
+      return Object.assign({},state,{
+        questions: newQuestions
+      })
+      //[
+      //  ...questions.slice(0, action.hoverIndex),
+      //  questions[action.dragIndex],
+      //  ...questions.slice(action.hoverIndex, 1)
+      //]
     default: 
       return state
   }
@@ -65,18 +91,12 @@ const pages = (state = {}, action) => {
         [action.pageId]: 
           action.page
       })
-      //{
-      //  ...state,
-      //  [action.pageId]: {
-      //    ...state[action.pageId],
-      //    ...action.newPage
-      //  }
-      //}
     case 'UPDATE_PAGE':
       return Object.assign({},
         state, {
         [action.pageId]: action.page
       })
+    case types.MOVE_QUESTION: 
     case 'CREATE_QUESTION':
       return merge({}, state, {
         [action.pageId]: updatePage(state[action.pageId], action)

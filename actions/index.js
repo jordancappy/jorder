@@ -118,11 +118,12 @@ export const updateQuestion = (id, question) => {
 
 
 /* move question section */
-export const moveQuestion = (dragIndex, hoverIndex, pageId) => {
+export const moveQuestion = (dragIndex, hoverIndex, questionId, pageId) => {
   return {
     type: types.MOVE_QUESTION,
     dragIndex,
     hoverIndex,
+    questionId,
     pageId
   }
 }
