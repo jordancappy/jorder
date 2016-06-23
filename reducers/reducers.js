@@ -56,15 +56,13 @@ function updatePage(state = {
       })
     case 'REMOVE_QUESTION':
       return Object.assign({},state,{
-        questions: 
-          [
-          ...state.slice(0, action.index),
-          ...state.slice(index + 1)
+        questions: {
+          $splice: [
+          [action.dragIndex, 1],
+          [action.hoverIndex, 0, dragQuestion]
           ]
+        }
       })
-        state.questions
-      .slice(0, index)
-      .concat(state.slice(index + 1))
     case types.MOVE_QUESTION:
       const { questions } = state
       const newQuestions = state.questions
